@@ -1,14 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Typography, Button, Grid, Card, CardContent, CardActions } from '@mui/material';
-import UnzipIcon from '@mui/icons-material/Unarchive'; // For the unzip service
-import LinkIcon from '@mui/icons-material/Link'; // A generic choice for t2m and rmb temporarily
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'; // Suggested icon for rmb
+// import UnzipIcon from '@mui/icons-material/Unarchive';
+import LinkIcon from '@mui/icons-material/Link';
+import ImageIcon from '@mui/icons-material/Image';
+import CachedIcon from '@mui/icons-material/Cached';
+import ArticleIcon from '@mui/icons-material/Article';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import NumbersIcon from '@mui/icons-material/Numbers';
 
 const services = [
- { id: 1, name: 'unzip', description: 'Effortlessly unzip files and manage your data.', Icon: UnzipIcon },
- { id: 2, name: 't2m', description: 'Convert torrent files to magnet links.', Icon: LinkIcon },
- { id: 3, name: 'rmb', description: 'Image Background Remover.', Icon: RemoveCircleOutlineIcon }, // Updated with a more appropriate icon
+ { id: 1, name: 't2m', description: 'Convert torrent files to magnet links.', Icon: LinkIcon },
+ {id: 2, name: 'm2t', description:'Convert magnet links to torrent files.', Icon: CachedIcon},
+ { id: 3, name: 'rmb', description: 'Image Background Remover.', Icon: ImageIcon },
+ {id: 4, name: 'w2p', description:'Convert word file to pdf', Icon: ArticleIcon},
+ {id: 5, name: 'p2w', description:'Convert pdf to word file.', Icon: PictureAsPdfIcon},
+ {id: 6, name: 'b64en', description:'Base64 encode.', Icon: NumbersIcon},
+ {id: 7, name: 'b64de', description:'Base64 decode', Icon: NumbersIcon},
+//  {id: 8, name: 'unzip', description: 'Effortlessly unzip files and manage your data.', Icon: UnzipIcon }
 ];
 
 function MainPage() {
