@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Container, Grid, TextareaAutosize, Typography } from '@mui/material';
+import { Box, Button, Container, Grid, TextField, Typography, Paper } from '@mui/material';
 
 function Base64Encode() {
   const [inputText, setInputText] = useState('');
@@ -33,33 +33,45 @@ function Base64Encode() {
 
   return (
     <Container maxWidth="lg">
-      <Typography variant="h4" gutterBottom>
-        Base64 Encode
-      </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <Typography variant="body1">Text to Encode</Typography>
-          <TextareaAutosize
-            minRows={10}
-            style={{ width: '100%' }}
-            value={inputText}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <Typography variant="body1">Encoded Text</Typography>
-          <TextareaAutosize
-            minRows={10}
-            style={{ width: '100%' }}
-            value={encodedText}
-            readOnly
-          />
-        </Grid>
-      </Grid>
-      <Box mt={2}>
-        <Button variant="contained" onClick={encodeText}>
-          Encode
-        </Button>
+      <Box my={4}>
+        <Typography variant="h4" gutterBottom align="center" color="textPrimary">
+          Base64 Encode Tool
+        </Typography>
+        <Paper elevation={3} sx={{ p: 4 }}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <TextField
+                label="Text to Encode"
+                variant="outlined"
+                fullWidth
+                multiline
+                minRows={10}
+                value={inputText}
+                onChange={handleInputChange}
+                placeholder="Enter text here"
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                label="Encoded Text"
+                variant="outlined"
+                fullWidth
+                multiline
+                minRows={10}
+                value={encodedText}
+                InputProps={{
+                  readOnly: true,
+                }}
+                placeholder="Encoded text will appear here"
+              />
+            </Grid>
+          </Grid>
+          <Box textAlign="center" mt={3}>
+            <Button variant="contained" color="primary" onClick={encodeText} size="large">
+              Encode
+            </Button>
+          </Box>
+        </Paper>
       </Box>
     </Container>
   );
