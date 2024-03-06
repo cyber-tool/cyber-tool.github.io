@@ -11,7 +11,8 @@ function Base64Encode() {
 
   const encodeText = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/b64en', {
+      console.log(process.env.REACT_APP_API_DOMAIN);
+      const response = await fetch('https://' + process.env.REACT_APP_API_DOMAIN + '/b64en', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
