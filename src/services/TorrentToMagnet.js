@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppBar, Box, Button, Card, CardContent, Container, LinearProgress, Toolbar, Typography, TextField, IconButton, Tooltip } from '@mui/material';
+import { Box, Button, Card, CardContent, Container, LinearProgress, Typography, TextField, IconButton, Tooltip } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 
@@ -55,11 +55,9 @@ function TorrentToMagnet() {
 
   return (
     <Box>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6">Torrent to Magnet</Typography>
-        </Toolbar>
-      </AppBar>
+      <hr/>
+        <Typography align='center' sx={{ color: 'primary.main' }} variant="h3">Torrent to Magnet</Typography>
+      <hr/>
       <Container maxWidth="sm" sx={{ mt: 4 }}>
         <Card>
           <CardContent>
@@ -77,12 +75,12 @@ function TorrentToMagnet() {
                 onChange={handleFileChange}
               />
               <label htmlFor="raised-button-file">
-                <Button variant="contained" component="span" startIcon={<CloudUploadIcon />} sx={{ mt: 2, mb: 2 }}>
+                <Button variant="contained" component="span" color="secondary" startIcon={<CloudUploadIcon />} sx={{ mt: 2, mb: 2 }}>
                   Upload Torrent
                 </Button>
               </label>
               <Typography variant="body2">{file ? `File: ${file.name}` : 'No file selected'}</Typography>
-              <Button type="submit" variant="contained" color="primary" sx={{ mt: 2, display: 'block' }}>
+              <Button type="submit" variant="contained" color="secondary" sx={{ mt: 2, display: 'block' }}>
                 Convert
               </Button>
             </form>
@@ -96,7 +94,7 @@ function TorrentToMagnet() {
             variant="outlined"
             value={magnetLink}
             multiline
-            rows={4} // Adjust the number of rows as needed
+            rows={4}
             InputProps={{
               endAdornment: (
                 <Tooltip title="Copy">
