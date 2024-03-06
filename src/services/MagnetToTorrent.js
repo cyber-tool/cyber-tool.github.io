@@ -20,7 +20,7 @@ function MagnetToTorrent() {
     }
 
     try {
-      const response = await fetch('http://127.0.0.1:5005/m2t', {
+      const response = await fetch('https://' + process.env.REACT_APP_API_DOMAIN + '/m2t', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
