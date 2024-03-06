@@ -11,20 +11,21 @@ import WordToPDF from './services/WordToPDF';
 import PDFToWord from './services/PDFToWord';
 import Base64Encode from './services/Base64Encode';
 import Base64Decode from './services/Base64Decode';
+import Layout from './Layout';
 
 function App() {
   return (
      <Router>
        <Routes>
-         <Route path="/" element={<MainPage />} />
-         <Route path="/unzip" element={<UnZip />} />
-         <Route path="/t2m" element={<TorrentToMagnet />} />
-         <Route path="/m2t" element={<MagnetToTorrent />} />
-         <Route path="/rmb" element={<BackgroundRemove />} />
-         <Route path="/w2p" element={<WordToPDF />} />
-         <Route path="/p2w" element={<PDFToWord />} />
-         <Route path="/b64en" element={<Base64Encode />} />
-         <Route path="/b64de" element={<Base64Decode />} />
+         <Route path="/" element={<Layout><MainPage /></Layout>} />
+         <Route path="/unzip" element={<Layout><UnZip /></Layout>} />
+         <Route path="/t2m" element={<Layout><TorrentToMagnet /></Layout>} />
+         <Route path="/m2t" element={<Layout><MagnetToTorrent /></Layout>} />
+         <Route path="/rmb" element={<Layout><BackgroundRemove /></Layout>} />
+         <Route path="/w2p" element={<Layout><WordToPDF /></Layout>} />
+         <Route path="/p2w" element={<Layout><PDFToWord /></Layout>} />
+         <Route path="/b64en" element={<Layout><Base64Encode /></Layout>} />
+         <Route path="/b64de" element={<Layout><Base64Decode /></Layout>} />
        </Routes>
      </Router>
   );
