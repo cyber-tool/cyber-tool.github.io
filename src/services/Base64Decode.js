@@ -11,7 +11,7 @@ function Base64Decode() {
 
   const decodeText = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/b64de', {
+      const response = await fetch('https://' + process.env.REACT_APP_API_DOMAIN + '/b64de', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
