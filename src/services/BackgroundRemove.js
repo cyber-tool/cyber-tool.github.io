@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppBar, Box, Button, Card, CardContent, Container, Grid, LinearProgress, Toolbar, Typography, IconButton } from '@mui/material';
+import {Box, Button, Card, CardContent, Container, Grid, LinearProgress, Typography, IconButton } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import GetAppIcon from '@mui/icons-material/GetApp';
 
@@ -76,11 +76,9 @@ function BackgroundRemove() {
 
   return (
     <Box>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6">Background Removal Service</Typography>
-        </Toolbar>
-      </AppBar>
+      <hr/>
+        <Typography align='center' sx={{ color: 'primary.main' }} variant="h3">Image Background Remove</Typography>
+      <hr/>
       <Container maxWidth="md" sx={{ mt: 4 }}>
         <Card>
           <CardContent>
@@ -100,15 +98,15 @@ function BackgroundRemove() {
               onChange={handleFileChange}
             />
             <label htmlFor="upload-image">
-              <Button variant="contained" component="span" startIcon={<CloudUploadIcon />}>
+              <Button variant="contained" component="span" color="secondary" startIcon={<CloudUploadIcon />}>
                 Upload Image
               </Button>
             </label>
-            <Button variant="contained" color="primary" onClick={handleSubmit} sx={{ ml: 2 }}>
+            <Button variant="contained" color="secondary" onClick={handleSubmit} sx={{ ml: 2 }}>
               Remove Background
             </Button>
             {processedPreview && (
-              <IconButton onClick={handleDownload} sx={{ ml: 2 }} color="primary" aria-label="download" component="span">
+              <IconButton onClick={handleDownload} sx={{ ml: 2 }} color="secondary" aria-label="download" component="span">
                 <GetAppIcon />
               </IconButton>
             )}
