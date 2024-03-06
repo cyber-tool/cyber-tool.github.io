@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppBar, Box, Button, Card, CardContent, Container, TextField, Toolbar, Typography, LinearProgress } from '@mui/material';
+import { Box, Button, Card, CardContent, Container, TextField, Typography, LinearProgress } from '@mui/material';
 
 function MagnetToTorrent() {
   const [magnetLink, setMagnetLink] = useState('');
@@ -61,11 +61,9 @@ function MagnetToTorrent() {
 
   return (
     <Box>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6">Magnet To Torrent</Typography>
-        </Toolbar>
-      </AppBar>
+        <hr/>
+          <Typography align='center' sx={{ color: 'primary.main' }} variant="h3">Magnet To Torrent</Typography>
+        <hr/>
       <Container maxWidth="sm" sx={{ mt: 4 }}>
         <Card>
           <CardContent>
@@ -83,8 +81,9 @@ function MagnetToTorrent() {
                 rows={4}
                 onChange={handleChange}
                 sx={{ mt: 2, mb: 2 }}
+                color='secondary'
               />
-              <Button type="submit" variant="contained" color="primary" disabled={downloading} sx={{ display: 'block' }}>
+              <Button type="submit" variant="contained" color="secondary" disabled={downloading} sx={{ display: 'block' }}>
                 Convert and Download
               </Button>
             </form>
