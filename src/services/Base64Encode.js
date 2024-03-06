@@ -35,9 +35,9 @@ function Base64Encode() {
   return (
     <Container maxWidth="lg">
       <Box my={4}>
-        <Typography variant="h4" gutterBottom align="center" color="textPrimary">
-          Base64 Encode Tool
-        </Typography>
+        <hr/>
+          <Typography align='center' sx={{ color: 'primary.main' }} variant="h3">Encode Base64</Typography>
+        <hr/>
         <Paper elevation={3} sx={{ p: 4 }}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
@@ -48,6 +48,7 @@ function Base64Encode() {
                 multiline
                 minRows={10}
                 value={inputText}
+                color='secondary'
                 onChange={handleInputChange}
                 placeholder="Enter text here"
               />
@@ -63,12 +64,13 @@ function Base64Encode() {
                 InputProps={{
                   readOnly: true,
                 }}
+                color='secondary'
                 placeholder="Encoded text will appear here"
               />
             </Grid>
           </Grid>
           <Box textAlign="center" mt={3}>
-            <Button variant="contained" color="primary" onClick={encodeText} size="large">
+            <Button variant="contained" color="secondary" onClick={encodeText} size="large">
               Encode
             </Button>
           </Box>
