@@ -24,7 +24,7 @@ function WordToPDF() {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://127.0.0.1:5000/w2p', {
+      const response = await fetch('https://' + process.env.REACT_APP_API_DOMAIN + '/w2p', {
         method: 'POST',
         body: formData,
       });
@@ -34,7 +34,7 @@ function WordToPDF() {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = file.name.replace(/\.[^/.]+$/, ".pdf"); // Change the file extension to .pdf
+        a.download = file.name.replace(/\.[^/.]+$/, ".pdf");
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
