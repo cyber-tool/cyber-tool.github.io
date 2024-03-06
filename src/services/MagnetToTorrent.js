@@ -31,9 +31,19 @@ function MagnetToTorrent() {
       if (response.ok) {
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
+
+        const nameMatch = magnetLink.match(/&dn=([^&]+)/);
+        const hashMatch = magnetLink.match(/btih:([^&]+)/);
+        let fileName = 'downloaded_torrent';
+        if (nameMatch && nameMatch[1]) {
+          fileName = decodeURIComponent(nameMatch[1]);
+        } else if (hashMatch && hashMatch[1]) {
+          fileName = hashMatch[1];
+        }
+
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'downloaded_torrent.torrent';
+        a.download = `${fileName}.torrent`;
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
@@ -69,6 +79,8 @@ function MagnetToTorrent() {
                 variant="outlined"
                 fullWidth
                 value={magnetLink}
+                multiline
+                rows={4}
                 onChange={handleChange}
                 sx={{ mt: 2, mb: 2 }}
               />
