@@ -1,15 +1,11 @@
 {
   "files": {
-    "main.css": "/static/css/main.e6c13ad2.css",
-    "main.js": "/static/js/main.d39c1262.js",
-    "static/js/453.e71faafd.chunk.js": "/static/js/453.e71faafd.chunk.js",
+    "main.js": "/static/js/main.faecec16.js",
+    "static/media/cyber-tool-logo.png": "/static/media/cyber-tool-logo.edfb6776e33b7648ff7b.png",
     "index.html": "/index.html",
-    "main.e6c13ad2.css.map": "/static/css/main.e6c13ad2.css.map",
-    "main.d39c1262.js.map": "/static/js/main.d39c1262.js.map",
-    "453.e71faafd.chunk.js.map": "/static/js/453.e71faafd.chunk.js.map"
+    "main.faecec16.js.map": "/static/js/main.faecec16.js.map"
   },
   "entrypoints": [
-    "static/css/main.e6c13ad2.css",
-    "static/js/main.d39c1262.js"
+    "static/js/main.faecec16.js"
   ]
 }
