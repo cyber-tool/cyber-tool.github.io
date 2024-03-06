@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppBar, Box, Button, Card, CardContent, Container, Grid, Toolbar, Typography, IconButton } from '@mui/material';
+import { AppBar, Box, Button, Card, CardContent, Container, Grid, LinearProgress, Toolbar, Typography, IconButton } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import GetAppIcon from '@mui/icons-material/GetApp';
 
@@ -7,12 +7,16 @@ function BackgroundRemove() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [originalPreview, setOriginalPreview] = useState('');
   const [processedPreview, setProcessedPreview] = useState('');
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       setSelectedFile(file);
       setOriginalPreview(URL.createObjectURL(file));
+      setUploadProgress(0);
+      setIsUploading(false);
     }
   };
 
@@ -23,30 +27,48 @@ function BackgroundRemove() {
       return;
     }
 
+    setIsUploading(true);
+
     const formData = new FormData();
     formData.append('file', selectedFile);
 
-    try {
-      const response = await fetch('https://' + process.env.REACT_APP_API_DOMAIN + '/rmbg', {
-        method: 'POST',
-        body: formData,
-      });
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://' + process.env.REACT_APP_API_DOMAIN + '/rmbg', true);
 
-      if (!response.ok) throw new Error('Network response was not ok');
+    xhr.upload.onprogress = (event) => {
+      if (event.lengthComputable) {
+        const percentComplete = Math.round((event.loaded / event.total) * 100);
+        setUploadProgress(percentComplete);
+      }
+    };
 
-      const blob = await response.blob();
-      setProcessedPreview(URL.createObjectURL(blob));
-    } catch (error) {
-      console.error('Error:', error);
-      alert('An error occurred while processing the image.');
-    }
+    xhr.onload = async () => {
+      if (xhr.status === 200) {
+        const blob = new Blob([xhr.response], { type: 'image/png' });
+        setProcessedPreview(URL.createObjectURL(blob));
+        setIsUploading(false);
+      } else {
+        alert('An error occurred while processing the image.');
+        setIsUploading(false);
+      }
+      setUploadProgress(0);
+    };
+
+    xhr.onerror = () => {
+      console.error('Error during the upload process.');
+      alert('An error occurred while uploading the image.');
+      setIsUploading(false);
+      setUploadProgress(0);
+    };
+
+    xhr.responseType = 'blob';
+    xhr.send(formData);
   };
 
-  // Function to handle the download of the processed image
   const handleDownload = () => {
     const link = document.createElement('a');
     link.href = processedPreview;
-    link.download = 'processed-image.png'; // Or any name you want
+    link.download = 'processed-image.png';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -65,6 +87,11 @@ function BackgroundRemove() {
             <Typography variant="h5" gutterBottom>
               Upload your image
             </Typography>
+            <Box sx={{ mb: 2 }}>
+              {isUploading && (
+                <LinearProgress variant={uploadProgress > 0 ? "determinate" : "indeterminate"} value={uploadProgress} />
+              )}
+            </Box>
             <input
               accept="image/*"
               style={{ display: 'none' }}
@@ -80,7 +107,6 @@ function BackgroundRemove() {
             <Button variant="contained" color="primary" onClick={handleSubmit} sx={{ ml: 2 }}>
               Remove Background
             </Button>
-            {/* Conditionally rendering the download button only if there's a processed image */}
             {processedPreview && (
               <IconButton onClick={handleDownload} sx={{ ml: 2 }} color="primary" aria-label="download" component="span">
                 <GetAppIcon />
