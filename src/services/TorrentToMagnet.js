@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { AppBar, Box, Button, Card, CardContent, Container, LinearProgress, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Button, Card, CardContent, Container, LinearProgress, Toolbar, Typography, TextField, IconButton, Tooltip } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
 
 function TorrentToMagnet() {
   const [file, setFile] = useState(null);
@@ -45,6 +46,13 @@ function TorrentToMagnet() {
     }
   };
 
+  const handleCopy = async () => {
+    if (magnetLink) {
+      await navigator.clipboard.writeText(magnetLink);
+      // alert('Copied to clipboard!');
+    }
+  };
+
   return (
     <Box>
       <AppBar position="static">
@@ -81,10 +89,27 @@ function TorrentToMagnet() {
           </CardContent>
         </Card>
         {magnetLink && (
-          <Typography variant="body1" gutterBottom sx={{ mt: 2 }}>
-            Magnet Link: <a href={magnetLink}>{magnetLink}</a>
-          </Typography>
-        )}
+        <Box sx={{ mt: 2 }}>
+          <TextField
+            fullWidth
+            label="Magnet Link"
+            variant="outlined"
+            value={magnetLink}
+            multiline
+            rows={4} // Adjust the number of rows as needed
+            InputProps={{
+              endAdornment: (
+                <Tooltip title="Copy">
+                  <IconButton onClick={handleCopy}>
+                    <FileCopyIcon />
+                  </IconButton>
+                </Tooltip>
+              ),
+            }}
+            sx={{ mt: 2 }}
+          />
+        </Box>
+      )}
       </Container>
     </Box>
   );
