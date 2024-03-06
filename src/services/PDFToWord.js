@@ -24,7 +24,7 @@ function PDFToWord() {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://127.0.0.1:5000/p2w', {
+      const response = await fetch('https://' + process.env.REACT_APP_API_DOMAIN + '/p2w', {
         method: 'POST',
         body: formData,
       });
