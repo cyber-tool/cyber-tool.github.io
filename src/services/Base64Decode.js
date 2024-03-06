@@ -34,9 +34,9 @@ function Base64Decode() {
   return (
     <Container maxWidth="lg">
       <Box my={4}>
-        <Typography variant="h4" gutterBottom align="center" color="textPrimary">
-          Base64 Decode Tool
-        </Typography>
+        <hr/>
+          <Typography align='center' sx={{ color: 'primary.main' }} variant="h3">Decode Base64</Typography>
+        <hr/>
         <Paper elevation={3} sx={{ p: 4 }}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
@@ -46,6 +46,7 @@ function Base64Decode() {
                 fullWidth
                 multiline
                 minRows={10}
+                color='secondary'
                 value={inputText}
                 onChange={handleInputChange}
                 placeholder="Enter encoded text here"
@@ -58,6 +59,7 @@ function Base64Decode() {
                 fullWidth
                 multiline
                 minRows={10}
+                color='secondary'
                 value={decodedText}
                 InputProps={{
                   readOnly: true,
@@ -67,7 +69,7 @@ function Base64Decode() {
             </Grid>
           </Grid>
           <Box textAlign="center" mt={3}>
-            <Button variant="contained" color="primary" onClick={decodeText} size="large">
+            <Button variant="contained" color="secondary" onClick={decodeText} size="large">
               Decode
             </Button>
           </Box>
