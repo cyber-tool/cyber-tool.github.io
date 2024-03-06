@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { AppBar, Box, Button, Card, CardContent, Container, Grid, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Button, Card, CardContent, Container, Grid, Toolbar, Typography, IconButton } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import GetAppIcon from '@mui/icons-material/GetApp';
 
 function BackgroundRemove() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -41,6 +42,16 @@ function BackgroundRemove() {
     }
   };
 
+  // Function to handle the download of the processed image
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = processedPreview;
+    link.download = 'processed-image.png'; // Or any name you want
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <Box>
       <AppBar position="static">
@@ -69,6 +80,12 @@ function BackgroundRemove() {
             <Button variant="contained" color="primary" onClick={handleSubmit} sx={{ ml: 2 }}>
               Remove Background
             </Button>
+            {/* Conditionally rendering the download button only if there's a processed image */}
+            {processedPreview && (
+              <IconButton onClick={handleDownload} sx={{ ml: 2 }} color="primary" aria-label="download" component="span">
+                <GetAppIcon />
+              </IconButton>
+            )}
             <Grid container spacing={2} sx={{ mt: 2 }}>
               {originalPreview && (
                 <Grid item xs={12} md={6}>
