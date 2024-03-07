@@ -1,6 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Container, Typography, Button, Grid, Card, CardContent, CardActions, useTheme, Toolbar } from '@mui/material';
+import Link from 'next/link';
+import { Container, Typography, Grid, Card, CardContent } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
 import ImageIcon from '@mui/icons-material/Image';
 import CachedIcon from '@mui/icons-material/Cached';
@@ -18,26 +17,31 @@ const services = [
   { id: 7, name: 'Base64 Decode', path: 'b64de', Icon: NumbersIcon },
 ];
 
+export const metadata = {
+  title: 'Main Page - Cyber Tool',
+  description: 'Cyber Tool By Joseph Rasanjana',
+};
+
 function MainPage() {
-  const theme = useTheme();
   
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, color: theme.palette.text.primary }}>
+    <Container maxWidth="lg" sx={{ mt: 4, color: '#696969' }}>
       <Typography variant="h2" gutterBottom textAlign="center" sx={{ mb: 5, color: 'primary.main' }}>
         Welcome to Cyber Tool
       </Typography>
       <Grid container spacing={4}>
         {services.map((service) => (
           <Grid item xs={12} sm={6} md={4} key={service.id}>
-            <Link to={`/${service.path}`} style={{ textDecoration: 'none' }}>
+            <Link href={`/${service.path}`} passHref>
               <Card sx={{ 
                   height: '100%', 
                   display: 'flex', 
                   flexDirection: 'column',
                   backgroundColor: 'secondary.main', 
                   color: 'primary.contrastText',
+                  textDecoration: 'none',
                   '&:hover': { 
-                    boxShadow: `0 8px 16px 0 ${theme.palette.primary.main}` 
+                    boxShadow: `0 8px 16px 0 #696969` 
                   },
                   transition: '0.3s',
                 }}>
@@ -46,9 +50,6 @@ function MainPage() {
                   <Typography gutterBottom variant="h4" component="h2" sx={{ color: 'primary.contrastText' }}>
                     {service.name}
                   </Typography>
-                  {/* <Typography sx={{ color: 'text.secondary', size: 48 }}>
-                    {service.description}
-                  </Typography> */}
                 </CardContent>
               </Card>
             </Link>

@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+'use client'
+import React, { useState, FormEvent } from 'react';
 import { Box, Button, Card, CardContent, Container, TextField, Typography, LinearProgress } from '@mui/material';
 
 function MagnetToTorrent() {
-  const [magnetLink, setMagnetLink] = useState('');
-  const [downloading, setDownloading] = useState(false);
+ const [magnetLink, setMagnetLink] = useState('');
+ const [downloading, setDownloading] = useState(false);
 
-  const handleChange = (event) => {
+ const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMagnetLink(event.target.value);
-  };
+ };
 
-  const handleSubmit = async (event) => {
+ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setDownloading(true);
 
@@ -20,7 +21,7 @@ function MagnetToTorrent() {
     }
 
     try {
-      const response = await fetch('https://' + process.env.REACT_APP_API_DOMAIN + '/m2t', {
+      const response = await fetch('https://' + process.env.NEXT_PUBLIC_API_DOMAIN + '/m2t', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -57,9 +58,9 @@ function MagnetToTorrent() {
     } finally {
       setDownloading(false);
     }
-  };
+ };
 
-  return (
+ return (
     <Box>
         <hr/>
           <Typography align='center' sx={{ color: 'primary.main' }} variant="h3">Magnet To Torrent</Typography>
@@ -91,7 +92,7 @@ function MagnetToTorrent() {
         </Card>
       </Container>
     </Box>
-  );
+ );
 }
 
 export default MagnetToTorrent;

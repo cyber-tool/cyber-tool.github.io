@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+'use client'
+import React, { useState, ChangeEvent } from 'react';
 import { Box, Button, Container, Grid, TextField, Typography, Paper } from '@mui/material';
 
 function Base64Encode() {
   const [inputText, setInputText] = useState('');
   const [encodedText, setEncodedText] = useState('');
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputText(event.target.value);
   };
 
   const encodeText = async () => {
     try {
-      console.log(process.env.REACT_APP_API_DOMAIN);
-      const response = await fetch('https://' + process.env.REACT_APP_API_DOMAIN + '/b64en', {
+      const response = await fetch('https://' + process.env.NEXT_PUBLIC_API_DOMAIN + '/b64en', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -38,6 +38,7 @@ function Base64Encode() {
         <hr/>
           <Typography align='center' sx={{ color: 'primary.main' }} variant="h3">Encode Base64</Typography>
         <hr/>
+        <br/>
         <Paper elevation={3} sx={{ p: 4 }}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>

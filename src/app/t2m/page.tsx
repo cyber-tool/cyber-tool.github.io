@@ -1,18 +1,19 @@
+'use client'
 import React, { useState } from 'react';
 import { Box, Button, Card, CardContent, Container, LinearProgress, Typography, TextField, IconButton, Tooltip } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 
 function TorrentToMagnet() {
-  const [file, setFile] = useState(null);
-  const [magnetLink, setMagnetLink] = useState('');
-  const [uploading, setUploading] = useState(false);
+ const [file, setFile] = useState<File | null>(null);
+ const [magnetLink, setMagnetLink] = useState('');
+ const [uploading, setUploading] = useState(false);
 
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
-  };
+ const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFile(event.target.files ? event.target.files[0] : null);
+ };
 
-  const handleSubmit = async (event) => {
+ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setUploading(true);
 
@@ -26,7 +27,7 @@ function TorrentToMagnet() {
     formData.append('file', file);
 
     try {
-      const response = await fetch('https://' + process.env.REACT_APP_API_DOMAIN + '/t2m', {
+      const response = await fetch('https://' + process.env.NEXT_PUBLIC_API_DOMAIN + '/t2m', {
         method: 'POST',
         body: formData,
       });
@@ -44,16 +45,16 @@ function TorrentToMagnet() {
     } finally {
       setUploading(false);
     }
-  };
+ };
 
-  const handleCopy = async () => {
+ const handleCopy = async () => {
     if (magnetLink) {
       await navigator.clipboard.writeText(magnetLink);
       // alert('Copied to clipboard!');
     }
-  };
+ };
 
-  return (
+ return (
     <Box>
       <hr/>
         <Typography align='center' sx={{ color: 'primary.main' }} variant="h3">Torrent to Magnet</Typography>
@@ -76,7 +77,7 @@ function TorrentToMagnet() {
               />
               <label htmlFor="raised-button-file">
                 <Button variant="contained" component="span" color="secondary" startIcon={<CloudUploadIcon />} sx={{ mt: 2, mb: 2 }}>
-                  Upload Torrent
+                 Upload Torrent
                 </Button>
               </label>
               <Typography variant="body2">{file ? `File: ${file.name}` : 'No file selected'}</Typography>
@@ -98,9 +99,9 @@ function TorrentToMagnet() {
             InputProps={{
               endAdornment: (
                 <Tooltip title="Copy">
-                  <IconButton onClick={handleCopy}>
+                 <IconButton onClick={handleCopy}>
                     <FileCopyIcon />
-                  </IconButton>
+                 </IconButton>
                 </Tooltip>
               ),
             }}
@@ -110,7 +111,7 @@ function TorrentToMagnet() {
       )}
       </Container>
     </Box>
-  );
+ );
 }
 
 export default TorrentToMagnet;

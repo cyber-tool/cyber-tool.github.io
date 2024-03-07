@@ -1,16 +1,17 @@
+'use client'
 import React, { useState } from 'react';
-import {Box, Button, Card, CardContent, Container, LinearProgress, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, Container, LinearProgress, Typography } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 function PDFToWord() {
-  const [file, setFile] = useState(null);
-  const [uploading, setUploading] = useState(false);
+ const [file, setFile] = useState<File | null>(null);
+ const [uploading, setUploading] = useState<boolean>(false);
 
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
-  };
+ const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFile(event.target.files ? event.target.files[0] : null);
+ };
 
-  const handleSubmit = async (event) => {
+ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setUploading(true);
 
@@ -24,7 +25,7 @@ function PDFToWord() {
     formData.append('file', file);
 
     try {
-      const response = await fetch('https://' + process.env.REACT_APP_API_DOMAIN + '/p2w', {
+      const response = await fetch('https://' + process.env.NEXT_PUBLIC_API_DOMAIN + '/p2w', {
         method: 'POST',
         body: formData,
       });
@@ -48,13 +49,13 @@ function PDFToWord() {
     } finally {
       setUploading(false);
     }
-  };
+ };
 
-  return (
+ return (
     <Box>
-        <hr/>
-          <Typography align='center' sx={{ color: 'primary.main' }} variant="h3">PDF To Word</Typography>
-        <hr/>
+      <hr/>
+      <Typography align='center' sx={{ color: 'primary.main' }} variant="h3">PDF To Word</Typography>
+      <hr/>
       <Container maxWidth="sm" sx={{ mt: 4 }}>
         <Card>
           <CardContent>
@@ -72,7 +73,7 @@ function PDFToWord() {
               />
               <label htmlFor="raised-button-file">
                 <Button variant="contained" component="span" color="secondary" startIcon={<CloudUploadIcon />} sx={{ mt: 2, mb: 2 }}>
-                  Upload PDF
+                 Upload PDF
                 </Button>
               </label>
               <Typography variant="body2">{file ? `File: ${file.name}` : 'No file selected'}</Typography>
@@ -84,7 +85,7 @@ function PDFToWord() {
         </Card>
       </Container>
     </Box>
-  );
+ );
 }
 
 export default PDFToWord;
