@@ -1,11 +1,11 @@
 {
   "files": {
-    "main.js": "/static/js/main.faecec16.js",
-    "static/media/cyber-tool-logo.png": "/static/media/cyber-tool-logo.edfb6776e33b7648ff7b.png",
+    "main.js": "/static/js/main.c219134b.js",
+    "static/media/cyber-tool-logo.webp": "/static/media/cyber-tool-logo.abf8c1c97aa0e20666dd.webp",
     "index.html": "/index.html",
-    "main.faecec16.js.map": "/static/js/main.faecec16.js.map"
+    "main.c219134b.js.map": "/static/js/main.c219134b.js.map"
   },
   "entrypoints": [
-    "static/js/main.faecec16.js"
+    "static/js/main.c219134b.js"
   ]
 }
