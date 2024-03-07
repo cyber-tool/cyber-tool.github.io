@@ -1,26 +1,27 @@
+'use client'
 import React, { useState } from 'react';
-import {Box, Button, Card, CardContent, Container, Grid, LinearProgress, Typography, IconButton } from '@mui/material';
+import { Box, Button, Card, CardContent, Container, Grid, LinearProgress, Typography, IconButton } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import GetAppIcon from '@mui/icons-material/GetApp';
 
 function BackgroundRemove() {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [originalPreview, setOriginalPreview] = useState('');
-  const [processedPreview, setProcessedPreview] = useState('');
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [isUploading, setIsUploading] = useState(false);
+ const [selectedFile, setSelectedFile] = useState<File | null>(null);
+ const [originalPreview, setOriginalPreview] = useState<string>('');
+ const [processedPreview, setProcessedPreview] = useState<string>('');
+ const [uploadProgress, setUploadProgress] = useState<number>(0);
+ const [isUploading, setIsUploading] = useState<boolean>(false);
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
+ const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files ? event.target.files[0] : null;
     if (file) {
       setSelectedFile(file);
       setOriginalPreview(URL.createObjectURL(file));
       setUploadProgress(0);
       setIsUploading(false);
     }
-  };
+ };
 
-  const handleSubmit = async (event) => {
+ const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (!selectedFile) {
       alert('Please select an image file first.');
@@ -33,7 +34,7 @@ function BackgroundRemove() {
     formData.append('file', selectedFile);
 
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'https://' + process.env.REACT_APP_API_DOMAIN + '/rmbg', true);
+    xhr.open('POST', 'https://' + process.env.NEXT_PUBLIC_API_DOMAIN + '/rmbg', true);
 
     xhr.upload.onprogress = (event) => {
       if (event.lengthComputable) {
@@ -42,7 +43,7 @@ function BackgroundRemove() {
       }
     };
 
-    xhr.onload = async () => {
+    xhr.onload = () => {
       if (xhr.status === 200) {
         const blob = new Blob([xhr.response], { type: 'image/png' });
         setProcessedPreview(URL.createObjectURL(blob));
@@ -63,21 +64,23 @@ function BackgroundRemove() {
 
     xhr.responseType = 'blob';
     xhr.send(formData);
-  };
+ };
 
-  const handleDownload = () => {
-    const link = document.createElement('a');
-    link.href = processedPreview;
-    link.download = 'processed-image.png';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+ const handleDownload = () => {
+    if (processedPreview) {
+      const link = document.createElement('a');
+      link.href = processedPreview;
+      link.download = 'processed-image.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+ };
 
-  return (
+ return (
     <Box>
       <hr/>
-        <Typography align='center' sx={{ color: 'primary.main' }} variant="h3">Image Background Remove</Typography>
+      <Typography align='center' sx={{ color: 'primary.main' }} variant="h3">Image Background Remove</Typography>
       <hr/>
       <Container maxWidth="md" sx={{ mt: 4 }}>
         <Card>
@@ -113,14 +116,14 @@ function BackgroundRemove() {
             <Grid container spacing={2} sx={{ mt: 2 }}>
               {originalPreview && (
                 <Grid item xs={12} md={6}>
-                  <Typography>Original Image</Typography>
-                  <img src={originalPreview} alt="Original" style={{ width: '100%' }} />
+                 <Typography>Original Image</Typography>
+                 <img src={originalPreview} alt="Original" style={{ width: '100%' }} />
                 </Grid>
               )}
               {processedPreview && (
                 <Grid item xs={12} md={6}>
-                  <Typography>Processed Image</Typography>
-                  <img src={processedPreview} alt="Processed" style={{ width: '100%' }} />
+                 <Typography>Processed Image</Typography>
+                 <img src={processedPreview} alt="Processed" style={{ width: '100%' }} />
                 </Grid>
               )}
             </Grid>
@@ -128,7 +131,7 @@ function BackgroundRemove() {
         </Card>
       </Container>
     </Box>
-  );
+ );
 }
 
 export default BackgroundRemove;

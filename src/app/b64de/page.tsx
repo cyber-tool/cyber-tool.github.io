@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+'use client'
+import React, { useState, ChangeEvent } from 'react';
 import { Box, Button, Container, Grid, TextField, Typography, Paper } from '@mui/material';
 
 function Base64Decode() {
   const [inputText, setInputText] = useState('');
   const [decodedText, setDecodedText] = useState('');
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputText(event.target.value);
   };
 
   const decodeText = async () => {
     try {
-      const response = await fetch('https://' + process.env.REACT_APP_API_DOMAIN + '/b64de', {
+      const response = await fetch('https://' + process.env.NEXT_PUBLIC_API_DOMAIN + '/b64de', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
