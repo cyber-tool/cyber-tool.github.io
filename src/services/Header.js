@@ -2,7 +2,7 @@ import React from 'react';
 import { AppBar, Toolbar, Typography, Button, IconButton, useTheme } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom';
-import logo from "../images/cyber-tool-logo.png";
+import logo from "../images/cyber-tool-logo.webp";
 
 const Header = () => {
   const navigate = useNavigate();
