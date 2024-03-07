@@ -7,7 +7,6 @@ import CachedIcon from '@mui/icons-material/Cached';
 import ArticleIcon from '@mui/icons-material/Article';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import NumbersIcon from '@mui/icons-material/Numbers';
-import Footer from './services/Footer';
 
 const services = [
   { id: 1, name: 'Torrent To Magnet', path: 't2m', Icon: LinkIcon },
