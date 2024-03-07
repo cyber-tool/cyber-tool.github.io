@@ -10,6 +10,7 @@ import {
 import HomeIcon from "@mui/icons-material/Home";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import logo from "./../../public/cyber-tool-logo.webp"
 
 const Header = () => {
   const router = useRouter();
@@ -29,11 +30,12 @@ const Header = () => {
           aria-label="home"
         >
           <Image
-            src="/cyber-tool-logo.webp"
+            src={logo}
             alt="logo"
             width={40}
             height={40}
             style={{ marginRight: 10 }}
+            unoptimized
           />
         </IconButton>
         <Typography
