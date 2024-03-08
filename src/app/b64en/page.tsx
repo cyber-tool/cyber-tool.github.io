@@ -1,8 +1,11 @@
 'use client'
 import React, { useState, ChangeEvent } from 'react';
-import { Box, Button, Container, Grid, TextField, Typography, Paper } from '@mui/material';
+import { Box, Button, Container, Grid, TextField, Typography, Paper, useTheme } from '@mui/material';
 
 function Base64Encode() {
+
+  const theme = useTheme();
+
   const [inputText, setInputText] = useState('');
   const [encodedText, setEncodedText] = useState('');
 
@@ -47,9 +50,23 @@ function Base64Encode() {
                 variant="outlined"
                 fullWidth
                 multiline
-                minRows={10}
+                minRows={15}
+                maxRows={15}
                 value={inputText}
-                color='secondary'
+                sx={{
+                  '& .MuiInputBase-input': {
+                    color: theme.palette.secondary.dark,
+                  },
+                  '& .MuiInputLabel-root.Mui-focused': {
+                    color: theme.palette.secondary.dark,
+                  },
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: theme.palette.secondary.contrastText,
+                  },
+                  '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: theme.palette.secondary.dark,
+                  },
+                }}
                 onChange={handleInputChange}
                 placeholder="Enter text here"
               />
@@ -60,13 +77,27 @@ function Base64Encode() {
                 variant="outlined"
                 fullWidth
                 multiline
-                minRows={10}
+                minRows={15}
+                maxRows={15}
                 value={encodedText}
                 InputProps={{
                   readOnly: true,
                 }}
-                color='secondary'
                 placeholder="Encoded text will appear here"
+                sx={{
+                  '& .MuiInputBase-input': {
+                    color: theme.palette.secondary.dark,
+                  },
+                  '& .MuiInputLabel-root.Mui-focused': {
+                    color: theme.palette.secondary.dark,
+                  },
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: theme.palette.secondary.contrastText,
+                  },
+                  '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: theme.palette.secondary.dark,
+                  },
+                }}
               />
             </Grid>
           </Grid>

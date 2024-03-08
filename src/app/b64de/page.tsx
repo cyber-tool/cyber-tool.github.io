@@ -1,8 +1,11 @@
 'use client'
 import React, { useState, ChangeEvent } from 'react';
-import { Box, Button, Container, Grid, TextField, Typography, Paper } from '@mui/material';
+import { Box, Button, Container, Grid, TextField, Typography, Paper, useTheme } from '@mui/material';
 
 function Base64Decode() {
+
+  const theme = useTheme();
+
   const [inputText, setInputText] = useState('');
   const [decodedText, setDecodedText] = useState('');
 
@@ -38,6 +41,7 @@ function Base64Decode() {
         <hr/>
           <Typography align='center' sx={{ color: 'primary.main' }} variant="h3">Decode Base64</Typography>
         <hr/>
+        <br/>
         <Paper elevation={3} sx={{ p: 4 }}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
@@ -46,8 +50,22 @@ function Base64Decode() {
                 variant="outlined"
                 fullWidth
                 multiline
-                minRows={10}
-                color='secondary'
+                minRows={15}
+                maxRows={15}
+                sx={{
+                  '& .MuiInputBase-input': {
+                    color: theme.palette.secondary.dark,
+                  },
+                  '& .MuiInputLabel-root.Mui-focused': {
+                    color: theme.palette.secondary.dark,
+                  },
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: theme.palette.secondary.contrastText,
+                  },
+                  '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: theme.palette.secondary.dark,
+                  },
+                }}
                 value={inputText}
                 onChange={handleInputChange}
                 placeholder="Enter encoded text here"
@@ -59,8 +77,22 @@ function Base64Decode() {
                 variant="outlined"
                 fullWidth
                 multiline
-                minRows={10}
-                color='secondary'
+                minRows={15}
+                maxRows={15}
+                sx={{
+                  '& .MuiInputBase-input': {
+                    color: theme.palette.secondary.dark,
+                  },
+                  '& .MuiInputLabel-root.Mui-focused': {
+                    color: theme.palette.secondary.dark,
+                  },
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: theme.palette.secondary.contrastText,
+                  },
+                  '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: theme.palette.secondary.dark,
+                  },
+                }}
                 value={decodedText}
                 InputProps={{
                   readOnly: true,

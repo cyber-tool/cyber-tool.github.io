@@ -1,7 +1,9 @@
-import { Box, Container, Typography, Toolbar } from "@mui/material";
+"use client";
+import { Box, Container, Typography, Toolbar, useTheme } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const Footer = () => {
+  const theme = useTheme();
   return (
     <>
       <Toolbar />
@@ -11,7 +13,7 @@ const Footer = () => {
           py: 3,
           px: 2,
           mt: "auto",
-          backgroundColor: "#808080",
+          backgroundColor: theme.palette.secondary.main,
         }}
       >
         <Container maxWidth="lg">

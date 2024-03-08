@@ -1,8 +1,11 @@
 'use client'
 import React, { useState, FormEvent } from 'react';
-import { Box, Button, Card, CardContent, Container, TextField, Typography, LinearProgress } from '@mui/material';
+import { Box, Button, Card, CardContent, Container, TextField, Typography, LinearProgress, useTheme } from '@mui/material';
 
 function MagnetToTorrent() {
+
+  const theme = useTheme();
+
  const [magnetLink, setMagnetLink] = useState('');
  const [downloading, setDownloading] = useState(false);
 
@@ -62,6 +65,7 @@ function MagnetToTorrent() {
 
  return (
     <Box>
+      <br/>
         <hr/>
           <Typography align='center' sx={{ color: 'primary.main' }} variant="h3">Magnet To Torrent</Typography>
         <hr/>
@@ -79,10 +83,23 @@ function MagnetToTorrent() {
                 fullWidth
                 value={magnetLink}
                 multiline
-                rows={4}
+                rows={6}
                 onChange={handleChange}
-                sx={{ mt: 2, mb: 2 }}
-                color='secondary'
+                sx={{
+                  mt: 2, mb: 2,
+                  '& .MuiInputBase-input': {
+                    color: theme.palette.secondary.dark,
+                  },
+                  '& .MuiInputLabel-root.Mui-focused': {
+                    color: theme.palette.secondary.dark,
+                  },
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: theme.palette.secondary.contrastText,
+                  },
+                  '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: theme.palette.secondary.dark,
+                  },
+                }}
               />
               <Button type="submit" variant="contained" color="secondary" disabled={downloading} sx={{ display: 'block' }}>
                 Convert and Download

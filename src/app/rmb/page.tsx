@@ -79,6 +79,7 @@ function BackgroundRemove() {
 
  return (
     <Box>
+      <br/>
       <hr/>
       <Typography align='center' sx={{ color: 'primary.main' }} variant="h3">Image Background Remove</Typography>
       <hr/>
