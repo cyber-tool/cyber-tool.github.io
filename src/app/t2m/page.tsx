@@ -103,7 +103,7 @@ function TorrentToMagnet() {
             sx={{
               mt: 2,
               '& .MuiInputBase-input': {
-                color: theme.palette.secondary.text,
+                color: theme.palette.secondary.light,
               },
               '& .MuiInputLabel-root.Mui-focused': {
                 color: theme.palette.secondary.contrastText,
