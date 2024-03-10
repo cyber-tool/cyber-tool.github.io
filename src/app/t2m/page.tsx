@@ -1,10 +1,13 @@
 'use client'
 import React, { useState } from 'react';
-import { Box, Button, Card, CardContent, Container, LinearProgress, Typography, TextField, IconButton, Tooltip } from '@mui/material';
+import { Box, Button, Card, CardContent, Container, LinearProgress, Typography, TextField, IconButton, Tooltip, useTheme } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 
 function TorrentToMagnet() {
+
+  const theme = useTheme();
+
  const [file, setFile] = useState<File | null>(null);
  const [magnetLink, setMagnetLink] = useState('');
  const [uploading, setUploading] = useState(false);
@@ -56,6 +59,7 @@ function TorrentToMagnet() {
 
  return (
     <Box>
+      <br/>
       <hr/>
         <Typography align='center' sx={{ color: 'primary.main' }} variant="h3">Torrent to Magnet</Typography>
       <hr/>
@@ -96,16 +100,30 @@ function TorrentToMagnet() {
             value={magnetLink}
             multiline
             rows={4}
+            sx={{
+              mt: 2,
+              '& .MuiInputBase-input': {
+                color: theme.palette.secondary.light,
+              },
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: theme.palette.secondary.contrastText,
+              },
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: theme.palette.secondary.contrastText,
+              },
+              '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: theme.palette.secondary.contrastText,
+              },
+            }}
             InputProps={{
               endAdornment: (
                 <Tooltip title="Copy">
-                 <IconButton onClick={handleCopy}>
+                 <IconButton sx={{color:"#ffffff"}} onClick={handleCopy}>
                     <FileCopyIcon />
                  </IconButton>
                 </Tooltip>
               ),
             }}
-            sx={{ mt: 2 }}
           />
         </Box>
       )}
