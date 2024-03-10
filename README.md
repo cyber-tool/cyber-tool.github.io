@@ -7,3 +7,4 @@
 - PDF To Word
 - Encode Base64
 - Decode Base64
+- Convert to Leet Text
