@@ -6,6 +6,7 @@ import CachedIcon from '@mui/icons-material/Cached';
 import ArticleIcon from '@mui/icons-material/Article';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import NumbersIcon from '@mui/icons-material/Numbers';
+import FormatShapesIcon from '@mui/icons-material/FormatShapes';
 
 const services = [
   { id: 1, name: 'Torrent To Magnet', path: 't2m', Icon: LinkIcon },
@@ -15,6 +16,7 @@ const services = [
   { id: 5, name: 'PDF To Word', path: 'p2w', Icon: PictureAsPdfIcon },
   { id: 6, name: 'Base64 Encode', path: 'b64en', Icon: NumbersIcon },
   { id: 7, name: 'Base64 Decode', path: 'b64de', Icon: NumbersIcon },
+  { id: 8, name: 'Convert to Leet Text', path: 'toleet', Icon: FormatShapesIcon },
 ];
 
 export const metadata = {
