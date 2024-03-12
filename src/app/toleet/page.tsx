@@ -39,7 +39,7 @@ function ToLeet() {
     <Container maxWidth="lg">
       <Box my={4}>
         <hr/>
-          <Typography align='center' sx={{ color: 'primary.main' }} variant="h3">Convaert To Leet Text</Typography>
+          <Typography align='center' sx={{ color: 'primary.main' }} variant="h3">Convert To Leet Text</Typography>
         <hr/>
         <br/>
         <Paper elevation={3} sx={{ p: 4 }}>
