@@ -8,7 +8,7 @@ const GoogleTagManager = () => {
         strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=G-12GJMGDGKQ`}
       />
-      <Script strategy="afterInteractive">
+      <Script strategy="afterInteractive" id="gtag-init">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
