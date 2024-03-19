@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './theme';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
       <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <header>
+              <GoogleAnalytics gaId="G-12GJMGDGKQ" />
               <Header/>
             </header>
               {children}
