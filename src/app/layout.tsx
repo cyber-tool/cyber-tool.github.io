@@ -13,11 +13,6 @@ import { useState } from 'react';
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Cyber Tool",
-  description: "Cyber Tool By Joseph Rasanjana",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
