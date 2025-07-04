@@ -1,4 +1,0 @@
-User-agent: *
-Disallow:
-
-Sitemap: https://cyber-tool.github.io/sitemap.xml

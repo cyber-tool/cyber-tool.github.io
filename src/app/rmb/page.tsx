@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Box, Button, Card, CardContent, Container, Grid, LinearProgress, Typography, IconButton } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import GetAppIcon from '@mui/icons-material/GetApp';
+import Image from 'next/image';
 
 function BackgroundRemove() {
  const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -118,13 +119,13 @@ function BackgroundRemove() {
               {originalPreview && (
                 <Grid item xs={12} md={6}>
                  <Typography>Original Image</Typography>
-                 <img src={originalPreview} alt="Original" style={{ width: '100%' }} />
+                 <Image src={originalPreview} alt="Original" width={500} height={500} style={{ width: '100%', height: 'auto' }} />
                 </Grid>
               )}
               {processedPreview && (
                 <Grid item xs={12} md={6}>
                  <Typography>Processed Image</Typography>
-                 <img src={processedPreview} alt="Processed" style={{ width: '100%' }} />
+                 <Image src={processedPreview} alt="Processed" width={500} height={500} style={{ width: '100%', height: 'auto' }} />
                 </Grid>
               )}
             </Grid>
