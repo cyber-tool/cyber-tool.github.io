@@ -1,10 +1,12 @@
 'use client'
 import React, { useState, ChangeEvent } from 'react';
 import { Box, Button, Container, Grid, TextField, Typography, Paper, useTheme } from '@mui/material';
+import { useSnackbar } from '../../components/SnackbarProvider';
 
 function Base64Decode() {
 
   const theme = useTheme();
+  const { showMessage } = useSnackbar();
 
   const [inputText, setInputText] = useState('');
   const [decodedText, setDecodedText] = useState('');
@@ -31,7 +33,7 @@ function Base64Decode() {
       setDecodedText(data.decoded_data); // Ensure this matches your JSON response key for decoded data
     } catch (error) {
       console.error('Failed to decode:', error);
-      alert('Failed to decode text. Please try again.');
+      showMessage('Failed to decode text. Please try again.', 'error');
     }
   };
 

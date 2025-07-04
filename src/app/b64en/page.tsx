@@ -1,10 +1,12 @@
 'use client'
 import React, { useState, ChangeEvent } from 'react';
 import { Box, Button, Container, Grid, TextField, Typography, Paper, useTheme } from '@mui/material';
+import { useSnackbar } from '../../components/SnackbarProvider';
 
 function Base64Encode() {
 
   const theme = useTheme();
+  const { showMessage } = useSnackbar();
 
   const [inputText, setInputText] = useState('');
   const [encodedText, setEncodedText] = useState('');
@@ -31,7 +33,7 @@ function Base64Encode() {
       setEncodedText(data.base64_data);
     } catch (error) {
       console.error('Failed to encode:', error);
-      alert('Failed to encode text. Please try again.');
+      showMessage('Failed to encode text. Please try again.', 'error');
     }
   };
 

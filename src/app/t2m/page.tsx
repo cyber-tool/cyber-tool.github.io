@@ -3,10 +3,12 @@ import React, { useState } from 'react';
 import { Box, Button, Card, CardContent, Container, LinearProgress, Typography, TextField, IconButton, Tooltip, useTheme } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
+import { useSnackbar } from '../../components/SnackbarProvider';
 
 function TorrentToMagnet() {
 
   const theme = useTheme();
+  const { showMessage } = useSnackbar();
 
  const [file, setFile] = useState<File | null>(null);
  const [magnetLink, setMagnetLink] = useState('');
@@ -21,7 +23,7 @@ function TorrentToMagnet() {
     setUploading(true);
 
     if (!file) {
-      alert('Please select a file first.');
+      showMessage('Please select a file first.', 'warning');
       setUploading(false);
       return;
     }
@@ -40,11 +42,11 @@ function TorrentToMagnet() {
       if (response.ok) {
         setMagnetLink(result.magnet_link);
       } else {
-        alert(result.error || 'An error occurred while converting the file.');
+        showMessage(result.error || 'An error occurred while converting the file.', 'error');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('An error occurred while submitting the form.');
+      showMessage('An error occurred while submitting the form.', 'error');
     } finally {
       setUploading(false);
     }

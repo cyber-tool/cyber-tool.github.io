@@ -1,10 +1,12 @@
 'use client'
 import React, { useState, FormEvent } from 'react';
 import { Box, Button, Card, CardContent, Container, TextField, Typography, LinearProgress, useTheme } from '@mui/material';
+import { useSnackbar } from '../../components/SnackbarProvider';
 
 function MagnetToTorrent() {
 
   const theme = useTheme();
+  const { showMessage } = useSnackbar();
 
  const [magnetLink, setMagnetLink] = useState('');
  const [downloading, setDownloading] = useState(false);
@@ -18,7 +20,7 @@ function MagnetToTorrent() {
     setDownloading(true);
 
     if (!magnetLink) {
-      alert('Please paste a magnet link first.');
+      showMessage('Please paste a magnet link first.', 'warning');
       setDownloading(false);
       return;
     }
@@ -53,11 +55,11 @@ function MagnetToTorrent() {
         window.URL.revokeObjectURL(url);
       } else {
         const error = await response.json();
-        alert(error.error || 'An error occurred while converting the magnet link.');
+        showMessage(error.error || 'An error occurred while converting the magnet link.', 'error');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('An error occurred while submitting the form.');
+      showMessage('An error occurred while submitting the form.', 'error');
     } finally {
       setDownloading(false);
     }

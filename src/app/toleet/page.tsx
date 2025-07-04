@@ -1,10 +1,12 @@
 'use client'
 import React, { useState, ChangeEvent } from 'react';
 import { Box, Button, Container, Grid, TextField, Typography, Paper, useTheme } from '@mui/material';
+import { useSnackbar } from '../../components/SnackbarProvider';
 
 function ToLeet() {
 
   const theme = useTheme();
+  const { showMessage } = useSnackbar();
 
   const [inputText, setInputText] = useState('');
   const [leetText, setLeetText] = useState('');
@@ -31,7 +33,7 @@ function ToLeet() {
       setLeetText(data.leet_text);
     } catch (error) {
       console.error('Failed to Leet:', error);
-      alert('Failed to Leet text. Please try again.');
+      showMessage('Failed to Leet text. Please try again.', 'error');
     }
   };
 

@@ -4,6 +4,7 @@ import { Box, Button, Card, CardContent, Container, Grid, LinearProgress, Typogr
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import Image from 'next/image';
+import { useSnackbar } from '../../components/SnackbarProvider';
 
 function BackgroundRemove() {
  const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -11,6 +12,8 @@ function BackgroundRemove() {
  const [processedPreview, setProcessedPreview] = useState<string>('');
  const [uploadProgress, setUploadProgress] = useState<number>(0);
  const [isUploading, setIsUploading] = useState<boolean>(false);
+ const [dragActive, setDragActive] = useState(false);
+ const { showMessage } = useSnackbar();
 
  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files ? event.target.files[0] : null;
@@ -19,13 +22,37 @@ function BackgroundRemove() {
       setOriginalPreview(URL.createObjectURL(file));
       setUploadProgress(0);
       setIsUploading(false);
+      showMessage(`Selected file: ${file.name} (${file.type})`, 'info');
+    }
+ };
+
+ const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setDragActive(true);
+ };
+
+ const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setDragActive(false);
+ };
+
+ const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setDragActive(false);
+    const file = event.dataTransfer.files && event.dataTransfer.files[0];
+    if (file) {
+      setSelectedFile(file);
+      setOriginalPreview(URL.createObjectURL(file));
+      setUploadProgress(0);
+      setIsUploading(false);
+      showMessage(`Selected file: ${file.name} (${file.type})`, 'info');
     }
  };
 
  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (!selectedFile) {
-      alert('Please select an image file first.');
+      showMessage('Please select an image file first.', 'warning');
       return;
     }
 
@@ -50,7 +77,7 @@ function BackgroundRemove() {
         setProcessedPreview(URL.createObjectURL(blob));
         setIsUploading(false);
       } else {
-        alert('An error occurred while processing the image.');
+        showMessage('An error occurred while processing the image.', 'error');
         setIsUploading(false);
       }
       setUploadProgress(0);
@@ -58,7 +85,7 @@ function BackgroundRemove() {
 
     xhr.onerror = () => {
       console.error('Error during the upload process.');
-      alert('An error occurred while uploading the image.');
+      showMessage('An error occurred while uploading the image.', 'error');
       setIsUploading(false);
       setUploadProgress(0);
     };
@@ -95,18 +122,37 @@ function BackgroundRemove() {
                 <LinearProgress variant={uploadProgress > 0 ? "determinate" : "indeterminate"} value={uploadProgress} />
               )}
             </Box>
-            <input
-              accept="image/*"
-              style={{ display: 'none' }}
-              id="upload-image"
-              type="file"
-              onChange={handleFileChange}
-            />
-            <label htmlFor="upload-image">
-              <Button variant="contained" component="span" color="secondary" startIcon={<CloudUploadIcon />}>
-                Upload Image
-              </Button>
-            </label>
+            <Box
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              sx={{
+                border: dragActive ? '2px dashed #fab505' : '2px dashed #ccc',
+                borderRadius: 2,
+                p: 2,
+                mb: 2,
+                textAlign: 'center',
+                background: dragActive ? '#fffbe6' : 'transparent',
+                transition: 'background 0.2s',
+                cursor: 'pointer',
+              }}
+            >
+              <input
+                accept="image/*"
+                style={{ display: 'none' }}
+                id="upload-image"
+                type="file"
+                onChange={handleFileChange}
+              />
+              <label htmlFor="upload-image">
+                <Button variant="contained" component="span" color="secondary" startIcon={<CloudUploadIcon />}>
+                  Upload Image
+                </Button>
+              </label>
+              <Typography variant="body2" sx={{ mt: 1 }}>
+                {selectedFile ? `File: ${selectedFile.name} (${selectedFile.type})` : 'Drag and drop an image here, or click to select.'}
+              </Typography>
+            </Box>
             <Button variant="contained" color="secondary" onClick={handleSubmit} sx={{ ml: 2 }}>
               Remove Background
             </Button>
