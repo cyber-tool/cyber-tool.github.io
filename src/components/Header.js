@@ -1,111 +1,255 @@
 "use client";
+import { useState } from 'react';
 import {
   AppBar,
   Toolbar,
   Typography,
   Button,
   IconButton,
+  Box,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
   useTheme,
+  useMediaQuery,
+  TextField,
+  InputAdornment,
+  Divider,
+  Chip
 } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import logo from "./../../public/cyber-tool-logo.webp"
-import MenuIcon from "@mui/icons-material/Menu";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import {
+  Menu as MenuIcon,
+  Search as SearchIcon,
+  Home as HomeIcon,
+  Link as LinkIcon,
+  Image as ImageIcon,
+  Article as ArticleIcon,
+  Code as CodeIcon,
+  Security as SecurityIcon,
+  Palette as PaletteIcon,
+  Analytics as AnalyticsIcon,
+  QrCode as QrCodeIcon,
+  Close as CloseIcon
+} from "@mui/icons-material";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
 
-const services = [
-  { name: 'Torrent To Magnet', path: 't2m' },
-  { name: 'Magnet To Torrent', path: 'm2t' },
-  { name: 'Remove Image Background', path: 'rmb' },
-  { name: 'Word To PDF', path: 'w2p' },
-  { name: 'PDF To Word', path: 'p2w' },
-  { name: 'Base64 Encode', path: 'b64en' },
-  { name: 'Base64 Decode', path: 'b64de' },
-  { name: 'Convert to Leet Text', path: 'toleet' },
-  { name: 'URL Encode', path: 'url-encode' },
-  { name: 'URL Decode', path: 'url-decode' },
-  { name: 'Text Case Converter', path: 'text-case' },
-  { name: 'Hash Generator', path: 'hash-generator' },
-  { name: 'Password Generator', path: 'password-generator' },
-  { name: 'JSON Formatter', path: 'json-formatter' },
-  { name: 'Color Converter', path: 'color-converter' },
-  { name: 'Text Analyzer', path: 'text-analyzer' },
-  { name: 'QR Code Generator', path: 'qr-generator' },
+const navigationItems = [
+  { name: 'Home', path: '/', icon: HomeIcon },
+  { name: 'Torrent Tools', path: '/t2m', icon: LinkIcon, category: 'File Conversion' },
+  { name: 'Image Tools', path: '/rmb', icon: ImageIcon, category: 'File Conversion' },
+  { name: 'Document Tools', path: '/w2p', icon: ArticleIcon, category: 'File Conversion' },
+  { name: 'Text Tools', path: '/b64en', icon: CodeIcon, category: 'Text Processing' },
+  { name: 'Security Tools', path: '/hash-generator', icon: SecurityIcon, category: 'Security' },
+  { name: 'Design Tools', path: '/color-converter', icon: PaletteIcon, category: 'Design' },
+  { name: 'Analytics', path: '/text-analyzer', icon: AnalyticsIcon, category: 'Analytics' },
+  { name: 'QR Generator', path: '/qr-generator', icon: QrCodeIcon, category: 'Utilities' },
 ];
 
-const Header = () => {
-  const router = useRouter();
+export default function Header() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const theme = useTheme();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const router = useRouter();
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      // Navigate to search results or filter tools
+      router.push(`/?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery('');
+      setMobileOpen(false);
+    }
   };
-  return (
-    <AppBar
-      position="static"
-      sx={{
-        flexDirection: "row",
-        backgroundColor: theme.palette.secondary.main,
-      }}
-    >
-      <Toolbar>
-        <IconButton
-          onClick={() => router.push("/")}
-          edge="start"
-          aria-label="home"
-        >
-          <Image
-            src={logo}
-            alt="logo"
-            width={40}
-            height={40}
-            style={{ marginRight: 10 }}
-            unoptimized
-          />
-        </IconButton>
-        <Typography
-          variant="h6"
-          component="div"
-          sx={{ flexGrow: 1, color: theme.palette.secondary.text }}
-        >
+
+  const filteredItems = searchQuery 
+    ? navigationItems.filter(item => 
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.category?.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : navigationItems;
+
+  const groupedItems = filteredItems.reduce((acc, item) => {
+    const category = item.category || 'Other';
+    if (!acc[category]) acc[category] = [];
+    acc[category].push(item);
+    return acc;
+  }, {});
+
+  const drawer = (
+    <Box sx={{ width: 280, p: 2 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+        <Typography variant="h6" color="primary.main" fontWeight="bold">
           Cyber Tool
         </Typography>
-        <Button onClick={() => router.push("/")} sx={{ color: theme.palette.secondary.text }}>
-          <HomeIcon sx={{ mr: 0.5 }} />
-          Home
-        </Button>
-        <IconButton
-          size="large"
-          aria-label="menu"
-          aria-controls="nav-menu"
-          aria-haspopup="true"
-          onClick={handleMenu}
-          sx={{ color: theme.palette.secondary.text, ml: 1 }}
-        >
-          <MenuIcon />
+        <IconButton onClick={handleDrawerToggle}>
+          <CloseIcon />
         </IconButton>
-        <Menu
-          id="nav-menu"
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          {services.map((service) => (
-            <MenuItem key={service.path} onClick={() => { router.push(`/${service.path}`); handleClose(); }}>
-              {service.name}
-            </MenuItem>
-          ))}
-        </Menu>
-      </Toolbar>
-    </AppBar>
-  );
-};
+      </Box>
+      
+      <form onSubmit={handleSearch}>
+        <TextField
+          fullWidth
+          size="small"
+          placeholder="Search tools..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon color="action" />
+              </InputAdornment>
+            ),
+          }}
+          sx={{ mb: 2 }}
+        />
+      </form>
 
-export default Header;
+      <Divider sx={{ mb: 2 }} />
+
+      {Object.entries(groupedItems).map(([category, items]) => (
+        <Box key={category} sx={{ mb: 3 }}>
+          <Chip 
+            label={category} 
+            size="small" 
+            color="primary" 
+            variant="outlined"
+            sx={{ mb: 1, fontSize: '0.75rem' }}
+          />
+          <List dense>
+            {items.map((item) => (
+              <ListItem 
+                key={item.path} 
+                component={Link} 
+                href={item.path}
+                onClick={handleDrawerToggle}
+                sx={{
+                  borderRadius: 1,
+                  mb: 0.5,
+                  '&:hover': {
+                    backgroundColor: 'action.hover',
+                  }
+                }}
+              >
+                <ListItemIcon sx={{ minWidth: 36 }}>
+                  <item.icon fontSize="small" color="primary" />
+                </ListItemIcon>
+                <ListItemText 
+                  primary={item.name} 
+                  primaryTypographyProps={{ 
+                    fontSize: '0.875rem',
+                    fontWeight: 500
+                  }}
+                />
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+      ))}
+    </Box>
+  );
+
+  return (
+    <>
+      <AppBar
+        position="sticky"
+        elevation={0}
+        sx={{
+          backgroundColor: 'background.paper',
+          borderBottom: `1px solid ${theme.palette.divider}`,
+          backdropFilter: 'blur(8px)',
+        }}
+      >
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
+          {/* Logo and Title */}
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Link href="/" passHref style={{ textDecoration: 'none' }}>
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{
+                  color: 'primary.main',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  '&:hover': {
+                    color: 'primary.dark',
+                  }
+                }}
+              >
+                Cyber Tool
+              </Typography>
+            </Link>
+          </Box>
+
+          {/* Desktop Navigation */}
+          {!isMobile && (
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              {navigationItems.slice(0, 6).map((item) => (
+                <Button
+                  key={item.path}
+                  component={Link}
+                  href={item.path}
+                  startIcon={<item.icon />}
+                  sx={{
+                    color: 'text.primary',
+                    textTransform: 'none',
+                    fontWeight: 500,
+                    px: 2,
+                    py: 1,
+                    borderRadius: 2,
+                    '&:hover': {
+                      backgroundColor: 'action.hover',
+                      color: 'primary.main',
+                    }
+                  }}
+                >
+                  {item.name}
+                </Button>
+              ))}
+            </Box>
+          )}
+
+          {/* Mobile Menu Button */}
+          {isMobile && (
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ color: 'text.primary' }}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
+        </Toolbar>
+      </AppBar>
+
+      {/* Mobile Drawer */}
+      <Drawer
+        variant="temporary"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+        ModalProps={{
+          keepMounted: true, // Better open performance on mobile.
+        }}
+        sx={{
+          display: { xs: 'block', md: 'none' },
+          '& .MuiDrawer-paper': { 
+            boxSizing: 'border-box', 
+            width: 280,
+            backgroundColor: 'background.paper',
+          },
+        }}
+      >
+        {drawer}
+      </Drawer>
+    </>
+  );
+}
