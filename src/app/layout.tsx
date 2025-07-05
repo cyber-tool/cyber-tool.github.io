@@ -163,10 +163,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [mode, setMode] = useState<'light' | 'dark'>('light');
+  const [mounted, setMounted] = useState(false);
 
   // Load theme preference from localStorage on mount
   useEffect(() => {
+    // Check localStorage first
     const savedMode = localStorage.getItem('theme-mode') as 'light' | 'dark' | null;
+    
     if (savedMode && (savedMode === 'light' || savedMode === 'dark')) {
       setMode(savedMode);
     } else {
@@ -174,15 +177,66 @@ export default function RootLayout({
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       setMode(prefersDark ? 'dark' : 'light');
     }
+    
+    setMounted(true);
   }, []);
 
   const toggleMode = () => {
     const newMode = mode === 'light' ? 'dark' : 'light';
     setMode(newMode);
     localStorage.setItem('theme-mode', newMode);
+    
+    // Update document attribute for immediate effect
+    document.documentElement.setAttribute('data-mui-color-scheme', newMode);
   };
 
+  // Set initial theme on document to prevent flash
+  useEffect(() => {
+    if (mounted) {
+      document.documentElement.setAttribute('data-mui-color-scheme', mode);
+    }
+  }, [mode, mounted]);
+
   const theme = createAppTheme(mode);
+
+  // Prevent hydration mismatch by not rendering until mounted
+  if (!mounted) {
+    return (
+      <html lang="en">
+        <head>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function() {
+                  try {
+                    var theme = localStorage.getItem('theme-mode');
+                    if (!theme) {
+                      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                      theme = prefersDark ? 'dark' : 'light';
+                    }
+                    document.documentElement.setAttribute('data-mui-color-scheme', theme);
+                    document.body.style.backgroundColor = theme === 'dark' ? '#121212' : '#fafafa';
+                    document.body.style.color = theme === 'dark' ? '#ffffff' : '#2c3e50';
+                    document.documentElement.style.setProperty('--background-color', theme === 'dark' ? '#121212' : '#fafafa');
+                  } catch (e) {
+                    document.documentElement.setAttribute('data-mui-color-scheme', 'light');
+                    document.documentElement.style.setProperty('--background-color', '#fafafa');
+                  }
+                })();
+              `,
+            }}
+          />
+        </head>
+        <body className={inter.className}>
+          <div style={{ 
+            backgroundColor: 'var(--background-color, #fafafa)', 
+            minHeight: '100vh',
+            transition: 'background-color 0.3s ease'
+          }} />
+        </body>
+      </html>
+    );
+  }
 
   return (
     <html lang="en">
