@@ -38,10 +38,10 @@ const emojiMap: { [key: string]: string } = {
   'house': '🏠', 'building': '🏢', 'school': '🏫', 'hospital': '🏥', 'bank': '🏦',
   'money': '💰', 'dollar': '💵', 'euro': '💶', 'pound': '💷', 'yen': '💴',
   'clock': '🕐', 'time': '⏰', 'calendar': '📅', 'date': '📅', 'watch': '⌚',
-  'gift': '🎁', 'party': '🎉', 'balloon': '🎈', 'cake': '🎂', 'present': '🎁',
-  'game': '🎮', 'controller': '🎮', 'dice': '🎲', 'cards': '🃏', 'chess': '♟️',
+  'gift': '🎁', 'party': '🎉', 'balloon': '🎈',
+  'game': '🎮', 'dice': '🎲', 'cards': '🃏', 'chess': '♟️',
   'sport': '⚽', 'football': '⚽', 'basketball': '🏀', 'tennis': '🎾', 'golf': '⛳',
-  'flag': '🏁', 'trophy': '🏆', 'medal': '🏅', 'crown': '👑', 'star': '⭐'
+  'flag': '🏁', 'trophy': '🏆', 'medal': '🏅', 'crown': '👑'
 };
 
 export default function EmojiConverter() {
