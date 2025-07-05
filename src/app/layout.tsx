@@ -23,7 +23,7 @@ const ThemeContext = createContext({
 export const useThemeMode = () => useContext(ThemeContext);
 
 // Enhanced theme with dark mode support
-const createAppTheme = (mode) => createTheme({
+const createAppTheme = (mode: 'light' | 'dark') => createTheme({
   palette: {
     mode,
     primary: {
@@ -162,12 +162,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [mode, setMode] = useState('light');
+  const [mode, setMode] = useState<'light' | 'dark'>('light');
 
   // Load theme preference from localStorage on mount
   useEffect(() => {
-    const savedMode = localStorage.getItem('theme-mode');
-    if (savedMode) {
+    const savedMode = localStorage.getItem('theme-mode') as 'light' | 'dark' | null;
+    if (savedMode && (savedMode === 'light' || savedMode === 'dark')) {
       setMode(savedMode);
     } else {
       // Check system preference
