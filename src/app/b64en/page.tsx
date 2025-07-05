@@ -15,25 +15,19 @@ function Base64Encode() {
     setInputText(event.target.value);
   };
 
-  const encodeText = async () => {
+  const encodeText = () => {
     try {
-      const response = await fetch('https://' + process.env.NEXT_PUBLIC_API_DOMAIN + '/b64en', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ string: inputText }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      if (!inputText.trim()) {
+        showMessage('Please enter some text to encode.', 'warning');
+        return;
       }
-
-      const data = await response.json();
-      setEncodedText(data.base64_data);
+      
+      const encoded = btoa(inputText);
+      setEncodedText(encoded);
+      showMessage('Text encoded successfully!', 'success');
     } catch (error) {
       console.error('Failed to encode:', error);
-      showMessage('Failed to encode text. Please try again.', 'error');
+      showMessage('Failed to encode text. Please check your input.', 'error');
     }
   };
 

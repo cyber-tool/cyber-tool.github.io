@@ -15,25 +15,36 @@ function ToLeet() {
     setInputText(event.target.value);
   };
 
-  const decodeText = async () => {
+  const leetMap: { [key: string]: string } = {
+    'a': '4', 'A': '4',
+    'e': '3', 'E': '3',
+    'i': '1', 'I': '1',
+    'o': '0', 'O': '0',
+    's': '5', 'S': '5',
+    't': '7', 'T': '7',
+    'g': '9', 'G': '9',
+    'l': '|', 'L': '|',
+    'b': '8', 'B': '8',
+    'z': '2', 'Z': '2'
+  };
+
+  const convertToLeet = () => {
     try {
-      const response = await fetch('https://' + process.env.NEXT_PUBLIC_API_DOMAIN + '/toleet', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: inputText }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      if (!inputText.trim()) {
+        showMessage('Please enter some text to convert.', 'warning');
+        return;
       }
-
-      const data = await response.json();
-      setLeetText(data.leet_text);
+      
+      let leetResult = inputText;
+      for (const [char, leetChar] of Object.entries(leetMap)) {
+        leetResult = leetResult.replace(new RegExp(char, 'g'), leetChar);
+      }
+      
+      setLeetText(leetResult);
+      showMessage('Text converted to leet successfully!', 'success');
     } catch (error) {
-      console.error('Failed to Leet:', error);
-      showMessage('Failed to Leet text. Please try again.', 'error');
+      console.error('Failed to convert to leet:', error);
+      showMessage('Failed to convert text. Please try again.', 'error');
     }
   };
 
@@ -104,7 +115,7 @@ function ToLeet() {
             </Grid>
           </Grid>
           <Box textAlign="center" mt={3}>
-            <Button variant="contained" color="secondary" onClick={decodeText} size="large">
+            <Button variant="contained" color="secondary" onClick={convertToLeet} size="large">
               Convert
             </Button>
           </Box>

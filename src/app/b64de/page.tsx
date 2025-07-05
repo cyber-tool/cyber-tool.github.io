@@ -15,25 +15,19 @@ function Base64Decode() {
     setInputText(event.target.value);
   };
 
-  const decodeText = async () => {
+  const decodeText = () => {
     try {
-      const response = await fetch('https://' + process.env.NEXT_PUBLIC_API_DOMAIN + '/b64de', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ string: inputText }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      if (!inputText.trim()) {
+        showMessage('Please enter some text to decode.', 'warning');
+        return;
       }
-
-      const data = await response.json();
-      setDecodedText(data.decoded_data); // Ensure this matches your JSON response key for decoded data
+      
+      const decoded = atob(inputText);
+      setDecodedText(decoded);
+      showMessage('Text decoded successfully!', 'success');
     } catch (error) {
       console.error('Failed to decode:', error);
-      showMessage('Failed to decode text. Please try again.', 'error');
+      showMessage('Failed to decode text. Please check if the input is valid Base64.', 'error');
     }
   };
 
