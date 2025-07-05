@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 import { Container, Typography, Grid, Card, CardContent, Box, useTheme } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
@@ -35,11 +36,6 @@ const services = [
   { id: 16, name: 'Text Analyzer', path: 'text-analyzer', Icon: AnalyticsIcon, description: 'Analyze text statistics and metrics' },
   { id: 17, name: 'QR Code Generator', path: 'qr-generator', Icon: QrCodeIcon, description: 'Generate QR codes from text' },
 ];
-
-export const metadata = {
-  title: 'Main Page - Cyber Tool',
-  description: 'Cyber Tool By Joseph Rasanjana',
-};
 
 function MainPage() {
   const theme = useTheme();
