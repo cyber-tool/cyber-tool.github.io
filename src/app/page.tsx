@@ -16,6 +16,12 @@ import DataObjectIcon from '@mui/icons-material/DataObject';
 import PaletteIcon from '@mui/icons-material/Palette';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import QrCodeIcon from '@mui/icons-material/QrCode';
+import ShortTextIcon from '@mui/icons-material/ShortText';
+import StraightenIcon from '@mui/icons-material/Straighten';
+import StorageIcon from '@mui/icons-material/Storage';
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+import CalculateIcon from '@mui/icons-material/Calculate';
+import WifiIcon from '@mui/icons-material/Wifi';
 import { useThemeMode } from './layout';
 
 const services = [
@@ -36,6 +42,16 @@ const services = [
   { id: 15, name: 'Color Converter', path: 'color-converter', Icon: PaletteIcon, description: 'Convert between color formats' },
   { id: 16, name: 'Text Analyzer', path: 'text-analyzer', Icon: AnalyticsIcon, description: 'Analyze text statistics and metrics' },
   { id: 17, name: 'QR Code Generator', path: 'qr-generator', Icon: QrCodeIcon, description: 'Generate QR codes from text' },
+  { id: 18, name: 'URL Shortener', path: 'url-shortener', Icon: ShortTextIcon, description: 'Create short, shareable links' },
+  { id: 19, name: 'Unit Converter', path: 'unit-converter', Icon: StraightenIcon, description: 'Convert between different units' },
+  { id: 20, name: 'File Size Converter', path: 'file-size-converter', Icon: StorageIcon, description: 'Convert file size units' },
+  { id: 21, name: 'Emoji Converter', path: 'emoji-converter', Icon: EmojiEmotionsIcon, description: 'Convert text to emojis' },
+  { id: 22, name: 'Roman Numeral', path: 'roman-numeral', Icon: CalculateIcon, description: 'Convert decimal to Roman numerals' },
+  { id: 23, name: 'Morse Code', path: 'morse-code', Icon: WifiIcon, description: 'Convert text to Morse code' },
+  { id: 24, name: 'Binary Converter', path: 'binary-converter', Icon: NumbersIcon, description: 'Convert between number systems' },
+  { id: 25, name: 'Text Diff Checker', path: 'text-diff', Icon: TextFieldsIcon, description: 'Compare and find differences in text' },
+  { id: 26, name: 'Markdown Editor', path: 'markdown-editor', Icon: ArticleIcon, description: 'Edit and preview Markdown' },
+  { id: 27, name: 'CSV to JSON', path: 'csv-to-json', Icon: DataObjectIcon, description: 'Convert CSV data to JSON format' },
 ];
 
 function MainPage() {
