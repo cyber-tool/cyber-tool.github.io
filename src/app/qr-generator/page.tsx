@@ -1,7 +1,8 @@
 'use client'
-import React, { useState, ChangeEvent, useRef, useEffect } from 'react';
+import React, { useState, ChangeEvent, useRef } from 'react';
 import { Box, Button, Container, Grid, TextField, Typography, Paper, useTheme, Slider } from '@mui/material';
 import { useSnackbar } from '../../components/SnackbarProvider';
+import QRCode from 'qrcode';
 
 function QRGenerator() {
   const theme = useTheme();
@@ -15,7 +16,7 @@ function QRGenerator() {
     setInputText(event.target.value);
   };
 
-  const generateQR = () => {
+  const generateQR = async () => {
     try {
       if (!inputText.trim()) {
         showMessage('Please enter some text to generate QR code.', 'warning');
@@ -25,58 +26,22 @@ function QRGenerator() {
       const canvas = canvasRef.current;
       if (!canvas) return;
 
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-
       // Clear canvas
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Simple QR-like pattern generation (this is a simplified version)
-      // In a real implementation, you'd use a proper QR code library
-      const cellSize = qrSize / 25; // 25x25 grid
-      canvas.width = qrSize;
-      canvas.height = qrSize;
-
-      // Generate a simple pattern based on the input text
-      const textHash = inputText.split('').reduce((hash, char) => {
-        return char.charCodeAt(0) + ((hash << 5) - hash);
-      }, 0);
-
-      // Create a pseudo-random pattern
-      for (let i = 0; i < 25; i++) {
-        for (let j = 0; j < 25; j++) {
-          const shouldFill = (textHash + i * 31 + j * 17) % 2 === 0;
-          if (shouldFill) {
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
-          }
-        }
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
 
-      // Add finder patterns (QR code corner squares)
-      ctx.fillStyle = '#000000';
-      // Top-left finder pattern
-      ctx.fillRect(0, 0, cellSize * 7, cellSize * 7);
-      ctx.fillStyle = '#FFFFFF';
-      ctx.fillRect(cellSize, cellSize, cellSize * 5, cellSize * 5);
-      ctx.fillStyle = '#000000';
-      ctx.fillRect(cellSize * 2, cellSize * 2, cellSize * 3, cellSize * 3);
-
-      // Top-right finder pattern
-      ctx.fillStyle = '#000000';
-      ctx.fillRect(qrSize - cellSize * 7, 0, cellSize * 7, cellSize * 7);
-      ctx.fillStyle = '#FFFFFF';
-      ctx.fillRect(qrSize - cellSize * 6, cellSize, cellSize * 5, cellSize * 5);
-      ctx.fillStyle = '#000000';
-      ctx.fillRect(qrSize - cellSize * 5, cellSize * 2, cellSize * 3, cellSize * 3);
-
-      // Bottom-left finder pattern
-      ctx.fillStyle = '#000000';
-      ctx.fillRect(0, qrSize - cellSize * 7, cellSize * 7, cellSize * 7);
-      ctx.fillStyle = '#FFFFFF';
-      ctx.fillRect(cellSize, qrSize - cellSize * 6, cellSize * 5, cellSize * 5);
-      ctx.fillStyle = '#000000';
-      ctx.fillRect(cellSize * 2, qrSize - cellSize * 5, cellSize * 3, cellSize * 3);
+      // Generate QR code using the qrcode library
+      await QRCode.toCanvas(canvas, inputText, {
+        width: qrSize,
+        margin: 2,
+        color: {
+          dark: '#000000',
+          light: '#FFFFFF'
+        },
+        errorCorrectionLevel: 'M'
+      });
 
       showMessage('QR code generated successfully!', 'success');
     } catch (error) {
@@ -182,7 +147,7 @@ function QRGenerator() {
                 />
               </Box>
               <Typography variant="body2" color="text.secondary" sx={{ mt: 2, textAlign: 'center' }}>
-                Note: This is a simplified QR code generator. For production use, consider using a proper QR code library.
+                This QR code can be scanned by any QR code reader app.
               </Typography>
             </Grid>
           </Grid>
