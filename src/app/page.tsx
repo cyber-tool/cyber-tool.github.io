@@ -7,6 +7,14 @@ import ArticleIcon from '@mui/icons-material/Article';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import NumbersIcon from '@mui/icons-material/Numbers';
 import FormatShapesIcon from '@mui/icons-material/FormatShapes';
+import CodeIcon from '@mui/icons-material/Code';
+import TextFieldsIcon from '@mui/icons-material/TextFields';
+import SecurityIcon from '@mui/icons-material/Security';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import DataObjectIcon from '@mui/icons-material/DataObject';
+import PaletteIcon from '@mui/icons-material/Palette';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
+import QrCodeIcon from '@mui/icons-material/QrCode';
 
 const services = [
   { id: 1, name: 'Torrent To Magnet', path: 't2m', Icon: LinkIcon },
@@ -17,6 +25,15 @@ const services = [
   { id: 6, name: 'Base64 Encode', path: 'b64en', Icon: NumbersIcon },
   { id: 7, name: 'Base64 Decode', path: 'b64de', Icon: NumbersIcon },
   { id: 8, name: 'Convert to Leet Text', path: 'toleet', Icon: FormatShapesIcon },
+  { id: 9, name: 'URL Encode', path: 'url-encode', Icon: CodeIcon },
+  { id: 10, name: 'URL Decode', path: 'url-decode', Icon: CodeIcon },
+  { id: 11, name: 'Text Case Converter', path: 'text-case', Icon: TextFieldsIcon },
+  { id: 12, name: 'Hash Generator', path: 'hash-generator', Icon: SecurityIcon },
+  { id: 13, name: 'Password Generator', path: 'password-generator', Icon: VpnKeyIcon },
+  { id: 14, name: 'JSON Formatter', path: 'json-formatter', Icon: DataObjectIcon },
+  { id: 15, name: 'Color Converter', path: 'color-converter', Icon: PaletteIcon },
+  { id: 16, name: 'Text Analyzer', path: 'text-analyzer', Icon: AnalyticsIcon },
+  { id: 17, name: 'QR Code Generator', path: 'qr-generator', Icon: QrCodeIcon },
 ];
 
 export const metadata = {

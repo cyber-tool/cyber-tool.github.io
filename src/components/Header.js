@@ -26,6 +26,15 @@ const services = [
   { name: 'Base64 Encode', path: 'b64en' },
   { name: 'Base64 Decode', path: 'b64de' },
   { name: 'Convert to Leet Text', path: 'toleet' },
+  { name: 'URL Encode', path: 'url-encode' },
+  { name: 'URL Decode', path: 'url-decode' },
+  { name: 'Text Case Converter', path: 'text-case' },
+  { name: 'Hash Generator', path: 'hash-generator' },
+  { name: 'Password Generator', path: 'password-generator' },
+  { name: 'JSON Formatter', path: 'json-formatter' },
+  { name: 'Color Converter', path: 'color-converter' },
+  { name: 'Text Analyzer', path: 'text-analyzer' },
+  { name: 'QR Code Generator', path: 'qr-generator' },
 ];
 
 const Header = () => {
