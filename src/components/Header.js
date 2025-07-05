@@ -17,7 +17,8 @@ import {
   TextField,
   InputAdornment,
   Divider,
-  Chip
+  Chip,
+  Tooltip
 } from "@mui/material";
 import {
   Menu as MenuIcon,
@@ -31,10 +32,13 @@ import {
   Palette as PaletteIcon,
   Analytics as AnalyticsIcon,
   QrCode as QrCodeIcon,
-  Close as CloseIcon
+  Close as CloseIcon,
+  LightMode as LightModeIcon,
+  DarkMode as DarkModeIcon
 } from "@mui/icons-material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useThemeMode } from '../app/layout';
 
 const navigationItems = [
   { name: 'Home', path: '/', icon: HomeIcon },
@@ -54,6 +58,7 @@ export default function Header() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const router = useRouter();
+  const { mode, toggleMode } = useThemeMode();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -89,9 +94,16 @@ export default function Header() {
         <Typography variant="h6" color="primary.main" fontWeight="bold">
           Cyber Tool
         </Typography>
-        <IconButton onClick={handleDrawerToggle}>
-          <CloseIcon />
-        </IconButton>
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <Tooltip title={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}>
+            <IconButton onClick={toggleMode} size="small">
+              {mode === 'light' ? <DarkModeIcon /> : <LightModeIcon />}
+            </IconButton>
+          </Tooltip>
+          <IconButton onClick={handleDrawerToggle}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
       </Box>
       
       <form onSubmit={handleSearch}>
@@ -216,18 +228,36 @@ export default function Header() {
             </Box>
           )}
 
-          {/* Mobile Menu Button */}
-          {isMobile && (
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ color: 'text.primary' }}
-            >
-              <MenuIcon />
-            </IconButton>
-          )}
+          {/* Right side buttons */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            {/* Dark mode toggle */}
+            <Tooltip title={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}>
+              <IconButton
+                onClick={toggleMode}
+                sx={{ 
+                  color: 'text.primary',
+                  '&:hover': {
+                    backgroundColor: 'action.hover',
+                  }
+                }}
+              >
+                {mode === 'light' ? <DarkModeIcon /> : <LightModeIcon />}
+              </IconButton>
+            </Tooltip>
+
+            {/* Mobile Menu Button */}
+            {isMobile && (
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ color: 'text.primary' }}
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
+          </Box>
         </Toolbar>
       </AppBar>
 

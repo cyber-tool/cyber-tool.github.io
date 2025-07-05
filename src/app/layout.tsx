@@ -10,14 +10,22 @@ import { Box } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import  GoogleTagManager  from '../components/GoogleTagManager';
 import SnackbarProvider from '../components/SnackbarProvider';
-import { useState } from 'react';
+import { useState, createContext, useContext, useEffect } from 'react';
 
 const inter = Inter({ subsets: ["latin"] });
 
-// Enhanced theme with better colors and typography
-const theme = createTheme({
+// Create theme context
+const ThemeContext = createContext({
+  mode: 'light',
+  toggleMode: () => {},
+});
+
+export const useThemeMode = () => useContext(ThemeContext);
+
+// Enhanced theme with dark mode support
+const createAppTheme = (mode) => createTheme({
   palette: {
-    mode: 'light',
+    mode,
     primary: {
       main: '#fab505',
       light: '#ffd54f',
@@ -31,14 +39,18 @@ const theme = createTheme({
       contrastText: '#ffffff',
     },
     background: {
-      default: '#fafafa',
-      paper: '#ffffff',
+      default: mode === 'light' ? '#fafafa' : '#121212',
+      paper: mode === 'light' ? '#ffffff' : '#1e1e1e',
     },
     text: {
-      primary: '#2c3e50',
-      secondary: '#7f8c8d',
+      primary: mode === 'light' ? '#2c3e50' : '#ffffff',
+      secondary: mode === 'light' ? '#7f8c8d' : '#b0b0b0',
     },
-    divider: '#e0e0e0',
+    divider: mode === 'light' ? '#e0e0e0' : '#333333',
+    action: {
+      hover: mode === 'light' ? 'rgba(250, 181, 5, 0.08)' : 'rgba(250, 181, 5, 0.16)',
+      selected: mode === 'light' ? 'rgba(250, 181, 5, 0.12)' : 'rgba(250, 181, 5, 0.24)',
+    },
   },
   typography: {
     fontFamily: inter.style.fontFamily,
@@ -94,9 +106,13 @@ const theme = createTheme({
           padding: '8px 16px',
         },
         contained: {
-          boxShadow: '0 2px 8px rgba(250, 181, 5, 0.3)',
+          boxShadow: mode === 'light' 
+            ? '0 2px 8px rgba(250, 181, 5, 0.3)' 
+            : '0 2px 8px rgba(250, 181, 5, 0.2)',
           '&:hover': {
-            boxShadow: '0 4px 12px rgba(250, 181, 5, 0.4)',
+            boxShadow: mode === 'light' 
+              ? '0 4px 12px rgba(250, 181, 5, 0.4)' 
+              : '0 4px 12px rgba(250, 181, 5, 0.3)',
           },
         },
       },
@@ -104,8 +120,12 @@ const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-          border: '1px solid rgba(0, 0, 0, 0.06)',
+          boxShadow: mode === 'light' 
+            ? '0 2px 8px rgba(0, 0, 0, 0.08)' 
+            : '0 2px 8px rgba(0, 0, 0, 0.3)',
+          border: mode === 'light' 
+            ? '1px solid rgba(0, 0, 0, 0.06)' 
+            : '1px solid rgba(255, 255, 255, 0.08)',
         },
       },
     },
@@ -121,7 +141,16 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+          boxShadow: mode === 'light' 
+            ? '0 1px 3px rgba(0, 0, 0, 0.1)' 
+            : '0 1px 3px rgba(0, 0, 0, 0.3)',
+        },
+      },
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: mode === 'light' ? '#ffffff' : '#1e1e1e',
         },
       },
     },
@@ -134,39 +163,61 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [mode, setMode] = useState('light');
-  const toggleMode = () => setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
+
+  // Load theme preference from localStorage on mount
+  useEffect(() => {
+    const savedMode = localStorage.getItem('theme-mode');
+    if (savedMode) {
+      setMode(savedMode);
+    } else {
+      // Check system preference
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setMode(prefersDark ? 'dark' : 'light');
+    }
+  }, []);
+
+  const toggleMode = () => {
+    const newMode = mode === 'light' ? 'dark' : 'light';
+    setMode(newMode);
+    localStorage.setItem('theme-mode', newMode);
+  };
+
+  const theme = createAppTheme(mode);
+
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <AppRouterCacheProvider>
-            <SnackbarProvider>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  minHeight: '100vh',
-                  backgroundColor: 'background.default',
-                }}
-              >
-                <Header />
+        <ThemeContext.Provider value={{ mode, toggleMode }}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <AppRouterCacheProvider>
+              <SnackbarProvider>
                 <Box
-                  component="main"
                   sx={{
-                    flexGrow: 1,
-                    py: 3,
-                    px: { xs: 2, sm: 3 },
+                    display: 'flex',
+                    flexDirection: 'column',
+                    minHeight: '100vh',
                     backgroundColor: 'background.default',
                   }}
                 >
-                  {children}
+                  <Header />
+                  <Box
+                    component="main"
+                    sx={{
+                      flexGrow: 1,
+                      py: 3,
+                      px: { xs: 2, sm: 3 },
+                      backgroundColor: 'background.default',
+                    }}
+                  >
+                    {children}
+                  </Box>
+                  <Footer />
                 </Box>
-                <Footer />
-              </Box>
-            </SnackbarProvider>
-          </AppRouterCacheProvider>
-        </ThemeProvider>
+              </SnackbarProvider>
+            </AppRouterCacheProvider>
+          </ThemeProvider>
+        </ThemeContext.Provider>
       </body>
     </html>
   );

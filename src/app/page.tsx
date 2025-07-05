@@ -16,6 +16,7 @@ import DataObjectIcon from '@mui/icons-material/DataObject';
 import PaletteIcon from '@mui/icons-material/Palette';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import QrCodeIcon from '@mui/icons-material/QrCode';
+import { useThemeMode } from './layout';
 
 const services = [
   { id: 1, name: 'Torrent To Magnet', path: 't2m', Icon: LinkIcon, description: 'Convert torrent files to magnet links' },
@@ -39,6 +40,7 @@ const services = [
 
 function MainPage() {
   const theme = useTheme();
+  const { mode } = useThemeMode();
   
   return (
     <Container maxWidth="xl" sx={{ mt: 4, mb: 6 }}>
@@ -51,7 +53,7 @@ function MainPage() {
             mb: 3, 
             color: 'primary.main',
             fontWeight: 'bold',
-            textShadow: '2px 2px 4px rgba(0,0,0,0.1)',
+            textShadow: mode === 'light' ? '2px 2px 4px rgba(0,0,0,0.1)' : '2px 2px 4px rgba(0,0,0,0.3)',
             '@media (max-width: 600px)': {
               fontSize: '2rem',
             }
@@ -92,7 +94,9 @@ function MainPage() {
                   overflow: 'hidden',
                   '&:hover': { 
                     transform: 'translateY(-8px)',
-                    boxShadow: '0 12px 24px rgba(0,0,0,0.15)',
+                    boxShadow: mode === 'light' 
+                      ? '0 12px 24px rgba(0,0,0,0.15)' 
+                      : '0 12px 24px rgba(0,0,0,0.4)',
                     borderColor: 'primary.main',
                     '& .service-icon': {
                       transform: 'scale(1.1)',
@@ -136,7 +140,9 @@ function MainPage() {
                       width: 80,
                       height: 80,
                       borderRadius: '50%',
-                      backgroundColor: 'rgba(250, 181, 5, 0.1)',
+                      backgroundColor: mode === 'light' 
+                        ? 'rgba(250, 181, 5, 0.1)' 
+                        : 'rgba(250, 181, 5, 0.15)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
