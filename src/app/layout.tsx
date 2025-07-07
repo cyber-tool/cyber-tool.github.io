@@ -11,8 +11,11 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import  GoogleTagManager  from '../components/GoogleTagManager';
 import SnackbarProvider from '../components/SnackbarProvider';
 import { useState, createContext, useContext, useEffect } from 'react';
+import CustomHead from './head';
 
 const inter = Inter({ subsets: ["latin"] });
+
+
 
 // Create theme context
 const ThemeContext = createContext({
@@ -204,6 +207,7 @@ export default function RootLayout({
     return (
       <html lang="en">
         <head>
+          <CustomHead />
           <script
             dangerouslySetInnerHTML={{
               __html: `
@@ -240,6 +244,9 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <CustomHead />
+      </head>
       <body className={inter.className}>
         <ThemeContext.Provider value={{ mode, toggleMode }}>
           <ThemeProvider theme={theme}>
