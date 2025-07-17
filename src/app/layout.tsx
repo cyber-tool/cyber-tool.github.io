@@ -12,6 +12,7 @@ import  GoogleTagManager  from '../components/GoogleTagManager';
 import SnackbarProvider from '../components/SnackbarProvider';
 import { useState, createContext, useContext, useEffect } from 'react';
 import CustomHead from './head';
+import PostHogProvider from '../components/PostHogProvider';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -248,37 +249,39 @@ export default function RootLayout({
         <CustomHead />
       </head>
       <body className={inter.className}>
-        <ThemeContext.Provider value={{ mode, toggleMode }}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <AppRouterCacheProvider>
-              <SnackbarProvider>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    minHeight: '100vh',
-                    backgroundColor: 'background.default',
-                  }}
-                >
-                  <Header />
+        <PostHogProvider>
+          <ThemeContext.Provider value={{ mode, toggleMode }}>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <AppRouterCacheProvider>
+                <SnackbarProvider>
                   <Box
-                    component="main"
                     sx={{
-                      flexGrow: 1,
-                      py: 3,
-                      px: { xs: 2, sm: 3 },
+                      display: 'flex',
+                      flexDirection: 'column',
+                      minHeight: '100vh',
                       backgroundColor: 'background.default',
                     }}
                   >
-                    {children}
+                    <Header />
+                    <Box
+                      component="main"
+                      sx={{
+                        flexGrow: 1,
+                        py: 3,
+                        px: { xs: 2, sm: 3 },
+                        backgroundColor: 'background.default',
+                      }}
+                    >
+                      {children}
+                    </Box>
+                    <Footer />
                   </Box>
-                  <Footer />
-                </Box>
-              </SnackbarProvider>
-            </AppRouterCacheProvider>
-          </ThemeProvider>
-        </ThemeContext.Provider>
+                </SnackbarProvider>
+              </AppRouterCacheProvider>
+            </ThemeProvider>
+          </ThemeContext.Provider>
+        </PostHogProvider>
       </body>
     </html>
   );
